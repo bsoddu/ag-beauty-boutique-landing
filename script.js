@@ -1,0 +1,145 @@
+// Cookie banner — sposta anche il bottone WhatsApp fluttuante mentre il banner
+// e' visibile (altrimenti su mobile il banner copre il bottone WA).
+(function () {
+  var banner = document.getElementById('ck');
+  var okBtn = document.getElementById('ckOk');
+  var noBtn = document.getElementById('ckNo');
+
+  function syncWaOffset() {
+    var h = banner.classList.contains('show') ? banner.offsetHeight : 0;
+    document.documentElement.style.setProperty('--wa-off', h + 'px');
+  }
+
+  if (!localStorage.getItem('agbb_cookies_choice')) {
+    banner.classList.add('show');
+  }
+  syncWaOffset();
+  window.addEventListener('resize', syncWaOffset);
+
+  okBtn.addEventListener('click', function () {
+    localStorage.setItem('agbb_cookies_choice', 'accepted');
+    banner.classList.remove('show');
+    syncWaOffset();
+  });
+  noBtn.addEventListener('click', function () {
+    localStorage.setItem('agbb_cookies_choice', 'rejected');
+    banner.classList.remove('show');
+    syncWaOffset();
+  });
+})();
+
+// Low-power detection
+const cores = navigator.hardwareConcurrency || 4;
+const mem = navigator.deviceMemory || 8;
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isLowPower = prefersReduced || cores <= 2 || mem <= 4;
+if (isLowPower) document.documentElement.classList.add('low-power');
+
+let animationsStarted = false;
+
+function initReveal() {
+  const items = document.querySelectorAll('.reveal');
+  items.forEach((el) => el.classList.add('js-ready'));
+
+  if (isLowPower || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    items.forEach((el) => io.observe(el));
+    return;
+  }
+
+  gsap.registerPlugin(ScrollTrigger);
+  items.forEach((el) => {
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top 85%',
+      once: true,
+      onEnter: () => el.classList.add('is-visible'),
+    });
+  });
+}
+
+function initImageEffects() {
+  if (isLowPower || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+  const heroImg = document.querySelector('.hero__bg img');
+  if (heroImg) {
+    gsap.to(heroImg, {
+      yPercent: 10,
+      ease: 'none',
+      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true },
+    });
+  }
+
+  document.querySelectorAll('.img-reveal').forEach((el) => {
+    const img = el.querySelector('img');
+    if (!img) return;
+    gsap.fromTo(el, { clipPath: 'inset(100% 0% 0% 0%)' }, {
+      clipPath: 'inset(0% 0% 0% 0%)', duration: 1.1, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+    });
+    gsap.fromTo(img, { scale: 1.2 }, {
+      scale: 1, duration: 1.3, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+    });
+  });
+}
+
+function initMarquee() {
+  // Niente gate su isLowPower: un marquee e' un singolo transform continuo,
+  // costo trascurabile (lezione imparata su reve-estetica — il gate qui era
+  // un bug reale, lasciava il marquee fermo in silenzio su alcuni device).
+  if (typeof gsap === 'undefined') return;
+  const track = document.getElementById('mq');
+  if (!track) return;
+  const halfWidth = track.scrollWidth / 2;
+  const PX_PER_SEC = 55;
+  const duration = Math.max(halfWidth / PX_PER_SEC, 6);
+  gsap.to(track, { x: -halfWidth, duration, ease: 'none', repeat: -1 });
+}
+
+function initLenis() {
+  if (isLowPower || typeof Lenis === 'undefined' || !window.matchMedia('(pointer: fine)').matches) return;
+  const lenis = new Lenis({
+    duration: 2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+  });
+  if (typeof gsap !== 'undefined') {
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(500, 33);
+  } else {
+    (function raf(t) { lenis.raf(t); requestAnimationFrame(raf); })(performance.now());
+  }
+  lenis.on('scroll', () => {
+    if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.update();
+  });
+  window._lenis = lenis;
+}
+
+function boot() {
+  if (animationsStarted) return;
+  animationsStarted = true;
+  initReveal();
+  initImageEffects();
+  initMarquee();
+  initLenis();
+  if (typeof ScrollTrigger !== 'undefined') {
+    document.fonts.ready.then(() => ScrollTrigger.refresh());
+    setTimeout(() => ScrollTrigger.refresh(), 400);
+  }
+}
+
+window.addEventListener('load', () => {
+  document.fonts.ready.then(boot).catch(boot);
+  setTimeout(boot, 2500);
+});
