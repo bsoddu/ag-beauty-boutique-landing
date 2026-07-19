@@ -71,12 +71,12 @@ function initReveal() {
 function initImageEffects() {
   if (isLowPower || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
-  const heroImg = document.querySelector('.hero__bg img');
-  if (heroImg) {
-    gsap.to(heroImg, {
-      yPercent: 10,
+  const bandImg = document.querySelector('.imgband img');
+  if (bandImg) {
+    gsap.to(bandImg, {
+      yPercent: 12,
       ease: 'none',
-      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true },
+      scrollTrigger: { trigger: '.imgband', start: 'top bottom', end: 'bottom top', scrub: true },
     });
   }
 
@@ -92,19 +92,6 @@ function initImageEffects() {
       scrollTrigger: { trigger: el, start: 'top 88%', once: true },
     });
   });
-}
-
-function initMarquee() {
-  // Niente gate su isLowPower: un marquee e' un singolo transform continuo,
-  // costo trascurabile (lezione imparata su reve-estetica — il gate qui era
-  // un bug reale, lasciava il marquee fermo in silenzio su alcuni device).
-  if (typeof gsap === 'undefined') return;
-  const track = document.getElementById('mq');
-  if (!track) return;
-  const halfWidth = track.scrollWidth / 2;
-  const PX_PER_SEC = 55;
-  const duration = Math.max(halfWidth / PX_PER_SEC, 6);
-  gsap.to(track, { x: -halfWidth, duration, ease: 'none', repeat: -1 });
 }
 
 function initLenis() {
@@ -131,7 +118,6 @@ function boot() {
   animationsStarted = true;
   initReveal();
   initImageEffects();
-  initMarquee();
   initLenis();
   if (typeof ScrollTrigger !== 'undefined') {
     document.fonts.ready.then(() => ScrollTrigger.refresh());

@@ -55,96 +55,64 @@
 <main id="main">
 
   <section class="hero">
-    <div class="hero__bg">
-      <picture>
-        <source srcset="assets/images/hero.webp" type="image/webp">
-        <img src="assets/images/hero.jpg" alt="" fetchpriority="high" width="1700" height="1152">
-      </picture>
-    </div>
-    <div class="hero__content">
-      <span class="eyebrow">Montebelluna — Via Silvio Pellico 13</span>
-      <h1>Ritrova<br>il tuo tempo</h1>
-      <p>Trattamenti viso, corpo e mani pensati sulla tua pelle, a cura di Anna Ganea.</p>
-      <a href="https://wa.me/393933856686?text=Ciao!%20Vorrei%20informazioni%20sui%20vostri%20trattamenti" class="btn btn--solid">Scrivici su WhatsApp</a>
-    </div>
-  </section>
-
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee__track" id="mq">
-      <span>AG BEAUTY BOUTIQUE</span><span class="dot">✦</span>
-      <span>MONTEBELLUNA</span><span class="dot">✦</span>
-      <span>RITROVA IL TUO TEMPO</span><span class="dot">✦</span>
-      <span>AG BEAUTY BOUTIQUE</span><span class="dot">✦</span>
-      <span>MONTEBELLUNA</span><span class="dot">✦</span>
-      <span>RITROVA IL TUO TEMPO</span><span class="dot">✦</span>
-    </div>
-  </div>
-
-  <section class="servizi container" id="servizi">
-    <div class="servizi__head reveal">
-      <span class="eyebrow">I trattamenti</span>
-      <h2>Viso, corpo, mani</h2>
-    </div>
-    <div class="servizi__grid">
-      <div class="servizi__list">
-        <div class="servizi__item reveal">
-          <span class="n">01</span>
-          <div>
-            <h3>Viso</h3>
-            <p>Trattamenti personalizzati: non esistono due pelli uguali, ogni percorso è pensato sulla tua.</p>
-          </div>
-        </div>
-        <div class="servizi__item reveal">
-          <span class="n">02</span>
-          <div>
-            <h3>Corpo</h3>
-            <p>Percorsi su misura pensati perché tu esca non solo più bella, ma più leggera.</p>
-          </div>
-        </div>
-        <div class="servizi__item reveal">
-          <span class="n">03</span>
-          <div>
-            <h3>Mani</h3>
-            <p>Cura nei minimi dettagli, con la stessa attenzione di ogni altro trattamento.</p>
-          </div>
-        </div>
+    <div class="hero__grid">
+      <div class="hero__content reveal">
+        <span class="eyebrow">Montebelluna — Via Silvio Pellico 13</span>
+        <h1>Ritrova<br>il tuo tempo</h1>
+        <p>Trattamenti viso, corpo e mani pensati sulla tua pelle, a cura di Anna Ganea.</p>
+        <a href="https://wa.me/393933856686?text=Ciao!%20Vorrei%20informazioni%20sui%20vostri%20trattamenti" class="btn btn--solid">Scrivici su WhatsApp</a>
       </div>
-      <div class="servizi__img reveal img-reveal">
+      <div class="hero__frame reveal img-reveal">
         <picture>
-          <source srcset="assets/images/trattamento.webp" type="image/webp">
-          <img src="assets/images/trattamento.jpg" alt="" loading="lazy" width="1000" height="667">
+          <source srcset="assets/images/hero.webp" type="image/webp">
+          <img src="assets/images/hero.jpg" alt="" fetchpriority="high" width="1700" height="1152">
         </picture>
       </div>
     </div>
   </section>
 
+  <section class="servizi container" id="servizi">
+    <div class="servizi__intro reveal">
+      <span class="eyebrow">I trattamenti</span>
+      <h2>Un percorso, non un listino</h2>
+      <p>Non esistono trattamenti uguali per tutte: ogni percorso nasce dalla tua pelle, ascoltata e curata come merita.</p>
+    </div>
+    <div class="servizi__words reveal">
+      <span>Viso</span><span class="sep">—</span>
+      <span>Corpo</span><span class="sep">—</span>
+      <span>Mani</span>
+    </div>
+  </section>
+
+  <div class="imgband reveal img-reveal">
+    <picture>
+      <source srcset="assets/images/trattamento.webp" type="image/webp">
+      <img src="assets/images/trattamento.jpg" alt="" loading="lazy" width="1000" height="667">
+    </picture>
+  </div>
+
   <section class="statement container">
     <blockquote class="reveal">
-      "Dove non esistono trattamenti uguali per tutte, ma la tua pelle, ascoltata e curata come merita."
+      "Perché tu esca non solo più bella, ma più leggera."
       <cite>— Anna Ganea, fondatrice</cite>
     </blockquote>
   </section>
 
   <section class="dove container" id="dove">
-    <div class="dove__wrap">
-      <div class="dove__list reveal">
-        <span class="eyebrow">Dove siamo</span>
-        <h2>Vieni a trovarci</h2>
-        <div class="dove__row">
-          <strong>Indirizzo</strong>
-          <p>Via Silvio Pellico 13, Montebelluna (TV)</p>
-        </div>
-        <div class="dove__row">
-          <strong>Telefono &amp; WhatsApp</strong>
-          <p><a href="tel:+393933856686">+39 393 385 6686</a></p>
-        </div>
-        <a href="https://wa.me/393933856686" class="btn btn--solid">Scrivici su WhatsApp</a>
+    <div class="dove__inner reveal">
+      <span class="eyebrow">Dove siamo</span>
+      <h2>Vieni a trovarci</h2>
+      <div class="dove__row">
+        <strong>Indirizzo</strong>
+        <p>Via Silvio Pellico 13, Montebelluna (TV)</p>
       </div>
-      <div class="dove__map reveal">
-        <iframe
-          src="https://www.google.com/maps?q=Via+Silvio+Pellico+13+Montebelluna&output=embed"
-          loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-          title="Mappa: Via Silvio Pellico 13, Montebelluna"></iframe>
+      <div class="dove__row">
+        <strong>Telefono &amp; WhatsApp</strong>
+        <p><a href="tel:+393933856686">+39 393 385 6686</a></p>
+      </div>
+      <div class="dove__actions">
+        <a href="https://wa.me/393933856686" class="btn btn--solid">Scrivici su WhatsApp</a>
+        <a href="tel:+393933856686" class="btn">Chiama ora</a>
       </div>
     </div>
   </section>
