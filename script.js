@@ -113,10 +113,26 @@ function initLenis() {
   window._lenis = lenis;
 }
 
+function initMagneticCta() {
+  if (isLowPower || typeof gsap === 'undefined' || !window.matchMedia('(pointer: fine)').matches) return;
+  const btn = document.getElementById('heroCta');
+  if (!btn) return;
+  btn.addEventListener('mousemove', (e) => {
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    gsap.to(btn, { x: x * 0.25, y: y * 0.35, duration: 0.4, ease: 'power2.out' });
+  });
+  btn.addEventListener('mouseleave', () => {
+    gsap.to(btn, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.5)' });
+  });
+}
+
 function boot() {
   if (animationsStarted) return;
   animationsStarted = true;
   initReveal();
+  initMagneticCta();
   initImageEffects();
   initLenis();
   if (typeof ScrollTrigger !== 'undefined') {

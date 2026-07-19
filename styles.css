@@ -30,7 +30,16 @@ ul, ol { list-style: none; }
   --z-modal: 1000;
 }
 
-body { background: var(--cream); color: var(--ink); font-family: var(--font-body); }
+body { background: var(--cream); color: var(--ink); font-family: var(--font-body); position: relative; }
+
+/* Grana sottile fissa su tutta la pagina — scalda una palette a due toni piatti,
+   tocco da carta/editoriale invece che schermo piatto (AP-06: alternativa a un
+   gradient hero, qui e' un'opzione ammessa: "texture sottile in tono neutro"). */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 999; pointer-events: none;
+  opacity: 0.035; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
 
 h1, h2, h3 { font-family: var(--font-display); font-weight: 500; line-height: 1.05; }
 h1 { font-size: clamp(3rem, 9vw, 7rem); letter-spacing: -0.005em; }
@@ -92,14 +101,19 @@ section { padding-block: var(--space-xl); }
 }
 @media (min-width: 900px) { .hero__grid { grid-template-columns: 6fr 5fr; } }
 .hero__content p { color: var(--cream); opacity: 0.85; margin-block: var(--space-sm); max-width: 28rem; }
+.hero__frame-wrap { justify-self: center; align-self: end; }
+@media (min-width: 900px) { .hero__frame-wrap { justify-self: end; align-self: center; margin-top: 3rem; } }
 .hero__frame {
-  justify-self: center; align-self: end;
-  width: min(85%, 26rem); aspect-ratio: 4/5;
-  border: 1px solid rgba(251,243,234,0.4); padding: 0.6rem;
+  width: min(85vw, 26rem); aspect-ratio: 4/5;
+  border: 1px solid rgba(241,233,221,0.4); padding: 0.6rem;
   transform: rotate(1.2deg);
 }
-@media (min-width: 900px) { .hero__frame { justify-self: end; align-self: center; margin-top: 3rem; } }
 .hero__frame img { width: 100%; height: 100%; object-fit: cover; }
+.hero__caption {
+  display: block; margin-top: 0.9rem; text-align: center;
+  font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em;
+  text-transform: uppercase; color: rgba(241,233,221,0.55);
+}
 
 /* ═══ SERVIZI — niente lista numerata + immagine: parole grandi, flusso editoriale ═══ */
 .servizi { background: var(--cream); }
@@ -112,7 +126,9 @@ section { padding-block: var(--space-xl); }
 .servizi__words span {
   font-family: var(--font-display); font-style: italic;
   font-size: clamp(2.2rem, 6vw, 4.5rem); color: var(--ink);
+  transition: color 0.3s ease;
 }
+.servizi__words span:not(.sep):hover { color: var(--clay); }
 .servizi__words .sep { font-family: var(--font-body); font-style: normal; color: var(--clay); font-size: clamp(1.2rem, 2vw, 1.8rem); }
 
 /* ═══ IMAGE BAND — foto a piena larghezza come pausa visiva, non incastrata in una grid ═══ */
