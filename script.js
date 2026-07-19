@@ -113,6 +113,37 @@ function initLenis() {
   window._lenis = lenis;
 }
 
+function initKineticHero() {
+  if (isLowPower || typeof gsap === 'undefined' || typeof SplitType === 'undefined') return;
+  const h1 = document.querySelector('.hero h1');
+  if (!h1) return;
+  const split = new SplitType(h1, { types: 'words' });
+  gsap.from(split.words, {
+    opacity: 0, y: 30, duration: 0.9, stagger: 0.08, ease: 'power3.out', delay: 0.15,
+  });
+}
+
+function initServiziStagger() {
+  if (isLowPower || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  const words = document.querySelectorAll('.servizi__words span:not(.sep)');
+  if (!words.length) return;
+  gsap.from(words, {
+    opacity: 0, y: 20, duration: 0.7, stagger: 0.15, ease: 'power2.out',
+    scrollTrigger: { trigger: '.servizi__words', start: 'top 85%', once: true },
+  });
+}
+
+function initScrollProgress() {
+  const bar = document.getElementById('scrollProgress');
+  if (!bar) return;
+  function update() {
+    const max = document.body.scrollHeight - window.innerHeight;
+    bar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', update);
+  update();
+}
+
 function initMagneticCta() {
   if (isLowPower || typeof gsap === 'undefined' || !window.matchMedia('(pointer: fine)').matches) return;
   const btn = document.getElementById('heroCta');
@@ -134,6 +165,9 @@ function boot() {
   initReveal();
   initMagneticCta();
   initImageEffects();
+  initKineticHero();
+  initServiziStagger();
+  initScrollProgress();
   initLenis();
   if (typeof ScrollTrigger !== 'undefined') {
     document.fonts.ready.then(() => ScrollTrigger.refresh());

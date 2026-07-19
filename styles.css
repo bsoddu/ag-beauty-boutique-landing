@@ -72,6 +72,18 @@ section { padding-block: var(--space-xl); }
 .btn--solid { background: var(--ink); color: var(--cream); border-color: var(--ink); }
 .btn--solid:hover { background: transparent; color: var(--ink); }
 
+/* CTA a piena larghezza su mobile — piu' facili da toccare, il bottone nav resta compatto */
+@media (max-width: 640px) {
+  .hero__content .btn, .dove__actions .btn { width: 100%; justify-content: center; }
+  .dove__actions { flex-direction: column; }
+}
+
+/* ═══ SCROLL PROGRESS ═══ */
+#scrollProgress {
+  position: fixed; top: 0; left: 0; height: 2px; width: 0%;
+  background: var(--clay); z-index: 101; transition: width 0.1s linear;
+}
+
 /* ═══ NAV — sfondo semi-trasparente fisso, niente blend-mode (troppo imprevedibile) ═══ */
 .nav {
   position: fixed; inset-inline: 0; top: 0; z-index: var(--z-nav);
